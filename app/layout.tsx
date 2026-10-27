@@ -1,4 +1,6 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const description = "Web Design x Google: seu negócio em primeiro lugar nas pesquisas e IAs. Agende uma reunião.";
@@ -17,6 +19,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="pt-BR">
       <body className="flex min-h-screen justify-center bg-bg px-4 py-10 font-sans text-paper antialiased">
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
