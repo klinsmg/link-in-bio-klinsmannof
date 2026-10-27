@@ -1,6 +1,30 @@
+# dependências (reinstaladas com `npm ci`)
 node_modules
+
+# builds e caches (gerados por `npm run build`)
 .next
 out
 next-env.d.ts
 *.tsbuildinfo
+
+# variáveis de ambiente: só o .env.example vai para o repositório
+.env
+.env.*
+!.env.example
+
+# arquivos de agentes e de editor/sistema, sem uso no servidor
 AGENTS.md
+.claude/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# logs e relatórios
+*.log
+npm-debug.log*
+coverage
+
+# pastas de hospedagem geradas pelas CLIs
+.vercel
+.netlify
