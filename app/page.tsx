@@ -120,6 +120,8 @@ export default function Page() {
 
       <footer data-anim="reveal" className="mt-6.5 text-xs text-micro">
         © 2026 KLINSMANN · Todos os direitos reservados
+        <br />
+        Medimos visitas e desempenho de forma anônima, sem cookies.
       </footer>
       <Motion />
       <Sound />
