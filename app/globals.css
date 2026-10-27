@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/* Identidade KLINSMANN: preto ~80%, creme ~15%, verde ~5% */
+@theme {
+  --color-bg: #0b0b0b;
+  --color-paper: #efe4cd;
+  --color-accent: #0d8c37;
+  --color-ink: #0b0b0b;
+  --color-panel: #141414;
+  --color-field: #1e1e1e;
+  --color-line: #3a3a3a;
+  --color-dim: #aaa69e;
+  --color-shadow: #262626;
+  --color-ink-soft: #2b2b2b;
+  --color-micro: #8a867f;
+}
+
+:root { color-scheme: dark; scrollbar-color: var(--color-line) var(--color-bg); }
+::selection { background: var(--color-accent); color: var(--color-ink); }
+
+body {
+  background-color: var(--color-bg);
+  background-image:
+    radial-gradient(60% 40% at 50% 0%, rgb(13 140 55 / 0.12), transparent 70%),
+    radial-gradient(50% 30% at 50% 100%, rgb(13 140 55 / 0.08), transparent 70%);
+  background-attachment: fixed;
+}
+
+svg { width: 1.25em; height: 1.25em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+:focus-visible { outline: 2px solid var(--color-paper); outline-offset: 3px; }
+.card-main:focus-visible { outline-color: var(--color-accent); }
+
+/* Abertura: linha do tempo em app/Splash.tsx (cada quadro recebe --d, o atraso de entrada). */
+.sp-flash { opacity: 0; animation: sp-flash 0.31s var(--d) linear forwards; }
+.sp-zoom { animation: sp-zoom 0.31s var(--d) cubic-bezier(0.16, 1, 0.3, 1) both; }
+.sp-pop { opacity: 0; animation: sp-pop 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+/* O título real fica escondido enquanto o nome da abertura voa até ele. */
+html[data-intro="play"] h1 { visibility: hidden; }
+@keyframes sp-flash { 0%, 99% { opacity: 1; } 100% { opacity: 0; } }
+@keyframes sp-zoom { from { transform: scale(0.3) rotate(-25deg); } 60% { transform: scale(1.08) rotate(3deg); } to { transform: none; } }
+@keyframes sp-pop { from { opacity: 0; transform: translateY(40px) scale(0.8); } to { opacity: 1; transform: none; } }
+/* Cobertura até a abertura decidir (Splash define html[data-intro]): a foto de perfil já está pintada por baixo
+   (é o elemento do LCP), mas a página não aparece "nua" antes da abertura. Se o JS falhar, some sozinha em 4s. */
+@media (scripting: enabled) {
+  html:not([data-intro])::before {
+    content: ""; position: fixed; inset: 0; z-index: 9000; background: var(--color-bg);
+    animation: cover-out 0s 4s forwards;
+  }
+}
+@keyframes cover-out { to { opacity: 0; visibility: hidden; } }
