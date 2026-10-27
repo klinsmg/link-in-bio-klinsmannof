@@ -1,14 +1,14 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState } from "react";
-import { store, trap } from "./intro";
+import { trap } from "./intro";
 
 /**
  * Abertura, tudo por CSS com delays e um voo em JS no final:
  *  0,2s–2,0s   cinco serviços em tela cheia, em cortes secos de 0,31s (o do 1º lugar corta para verde)
  *  2,05s      o nome KLINSMANN entra grande, com os cinco serviços abaixo
  *  2,6s       a tela some e o nome voa até o título abaixo da foto de perfil, onde pousa
- * Toca uma vez por navegador (localStorage, se disponível); `?intro` força; toque/Esc pula.
+ * Toca em toda visita (só não toca com movimento reduzido); toque/Esc pula.
  * Enquanto toca, html[data-intro="play"] esconde o título real (ver globals.css) e o resto da página fica inerte.
  */
 const START = 0.2;
@@ -43,7 +43,6 @@ export default function Splash() {
   };
 
   const finish = () => {
-    store.set("introPlayed", "true");
     trap(null, false);
     document.documentElement.dataset.intro = "done"; // mostra o título real
     document.querySelector<HTMLElement>("h1")?.style.setProperty("opacity", "1"); // fica de fora da entrada do GSAP
@@ -52,8 +51,7 @@ export default function Splash() {
   };
 
   useLayoutEffect(() => {
-    const force = location.search.includes("intro");
-    const play = force || (!store.get("introPlayed") && !matchMedia("(prefers-reduced-motion: reduce)").matches);
+    const play = !matchMedia("(prefers-reduced-motion: reduce)").matches;
     document.documentElement.dataset.intro = play ? "play" : "skip";
     if (!play) return setPhase("done");
     setPhase("play");
